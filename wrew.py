@@ -27,30 +27,40 @@ while(True):
     value = int(input("value (y:)" ))
     data.append([key,value])
 print(data)
+global m
+global b
+global x
+global y
+def multiply(list1,list2):
+    output = []
+    for i in range(len(list1)):
+        output.append(list1[i]*list2[i])
+    return(output)
+def mean(liste):
+    totalsum = 0
+    for i in liste:
+        totalsum+=i
+    output = totalsum/len(liste)
+    return(output)
+def factorize(liste):
+    newlist = []
+    for i in liste:
+        newlist.append(i*i)
+    return(newlist)
+
 def linearRegression(data):
+    global x
+    global y
+    global m
+    global b
     exes = []
     whys = []
     for i in data:
         exes.append(i[0])
         whys.append(i[1])
-    def mean(liste):
-        totalsum = 0
-        for i in liste:
-            totalsum+=i
-        output = totalsum/len(liste)
-        return(output)
-    def factorize(liste):
-        newlist = []
-        for i in liste:
-            newlist.append(i*i)
-        return(newlist)
+    
+    
     exesto2 = factorize(exes)
-    def multiply(list1,list2):
-        output = []
-        for i in range(len(list1)):
-            output.append(list1[i]*list2[i])
-        return(output)
-
     m = (mean(exes)*mean(whys)-(mean(multiply(exes,whys))))/((mean(exes)*mean(exes)-mean(exesto2)))
     print(m)
     b = mean(whys)-m*mean(exes)
@@ -58,10 +68,39 @@ def linearRegression(data):
     x = np.linspace(-10, 10, 100)
     y = m*x+b
     return(y)
-y = linearRegression(data)
+graph = linearRegression(data)
 fig = plt.figure(figsize = (10, 5))
 # Create the plot
 plt.plot(x, y)
  
 # Show the plot
 plt.show()
+
+mean_y = mean(whys)
+def calculateRsquared (m,b,exes,whys,mean_y):
+    e_of_mean = 0
+    e_of_m =0
+    for i in range(len(exes)):
+        x_value = exes[i]
+        eSquared = (mean_y - y_value)**2
+        e_of_mean += eSquared
+        sloped_y = m*x_value+b
+        e_to_2 = (sloped_y - y_value)**2
+        e_of_m+=e_to_2
+        return(1 - ( e_of_m / e_of_mean))
+r2 = calculateRsquared(m,b,exes,whys,mean_y)
+print(r2)
+        
+                   
+        
+
+
+
+
+
+
+
+
+
+
+
